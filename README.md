@@ -84,7 +84,7 @@ To build the containers check out the repository and in the main directory execu
 ![Container Dependencies](doc/images/ch_container_dependencies.png)
 
 ### Configuration
-Please read the configuration section of the service ([`Logging Service`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#logging-service), [`Document API`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#document-api), [`Keyring API`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#keyring-api)) you are trying to run, before using `docker run` oder `docker-compose`. All Containers build with the provided dockerfiles require at least one volume:
+Please read the configuration section of the service ([`Logging Service`](clearing-house-app#logging-service), [`Document API`](clearing-house-app#document-api), [`Keyring API`](clearing-house-app#keyring-api)) you are trying to run, before using `docker run` oder `docker-compose`. All Containers build with the provided dockerfiles require at least one volume:
 1. The configuration file `Rocket.toml` is expected at `/server/Rocket.toml`
 
 Containers of the Keyring API require an additional volume:
@@ -96,6 +96,6 @@ Containers of the Logging Service require an additional volume:
 3. The folder containing the signing key needs to match the path configured for the signing key in `Rocket.toml`, e.g. `/sever/keys`
 
 ## Shared Secret
-The Clearing House services use signed JWTs with HMAC and a shared secret to ensure a minimal integrity of the requests received. The `Trusted Connector` as well as the services ([`Logging Service`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#logging-service), [`Document API`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#document-api), [`Keyring API`](https://github.com/Fraunhofer-AISEC/ids-clearing-house-service/tree/architecture-revamp/clearing-house-app#keyring-api)) need to have access to the shared secret.
+The Clearing House services use signed JWTs with HMAC and a shared secret to ensure a minimal integrity of the requests received. The `Trusted Connector` as well as the services ([`Logging Service`](clearing-house-app#logging-service), [`Document API`](clearing-house-app#document-api), [`Keyring API`](clearing-house-app#keyring-api)) need to have access to the shared secret.
 
 For production use please consider using additional protection measures.
