@@ -19,12 +19,12 @@
  */
 package de.fhg.aisec.ids.clearinghouse.idscp2
 
-import de.fhg.aisec.ids.idscp2.api.FastLatch
 import de.fhg.aisec.ids.idscp2.api.configuration.Idscp2Configuration
 import de.fhg.aisec.ids.idscp2.api.connection.Idscp2ConnectionAdapter
 import de.fhg.aisec.ids.idscp2.api.raregistry.RaProverDriverRegistry
 import de.fhg.aisec.ids.idscp2.api.raregistry.RaVerifierDriverRegistry
 import de.fhg.aisec.ids.idscp2.applayer.AppLayerConnection
+import de.fhg.aisec.ids.idscp2.core.FastLatch
 import de.fhg.aisec.ids.idscp2.defaultdrivers.remoteattestation.dummy.RaProverDummy2
 import de.fhg.aisec.ids.idscp2.defaultdrivers.remoteattestation.dummy.RaVerifierDummy2
 import de.fhg.aisec.ids.idscp2.defaultdrivers.securechannel.tls13.NativeTLSDriver

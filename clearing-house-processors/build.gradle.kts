@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.*
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.spring.dependencyManagement)
     `maven-publish`
+    alias(libs.plugins.versions)
 }
 
 group = "de.fhg.aisec.ids.clearinghouse"
@@ -100,9 +102,43 @@ repositories {
 }
 
 dependencies {
+    val versions = rootProject.libs.versions
+    // Some versions are downgraded for unknown reasons, fix this here
+    val groupPins = mapOf(
+        "org.jetbrains.kotlin" to mapOf(
+            "*" to versions.kotlin.get()
+        ),
+        "org.jetbrains.kotlinx" to mapOf(
+            Regex("kotlinx-coroutines-.*") to versions.kotlinx.coroutines.get(),
+            Regex("kotlinx-serialization-.*") to versions.kotlinx.serialization.get()
+        ),
+        "org.eclipse.jetty" to mapOf(
+            "*" to versions.jetty.get()
+        )
+    )
+    // We need to explicitly specify the kotlin version for all kotlin dependencies,
+    // because otherwise something (maybe a plugin) downgrades the kotlin version,
+    // which produces errors in the kotlin compiler. This is really nasty.
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            groupPins[requested.group]?.let { pins ->
+                pins["*"]?.let {
+                    // Pin all names when asterisk is set
+                    useVersion(it)
+                } ?: pins[requested.name]?.let { pin ->
+                    // Pin only for specific names given in map
+                    useVersion(pin)
+                } ?: pins.entries.firstOrNull { e ->
+                    e.key.let {
+                        it is Regex && it.matches(requested.name)
+                    }
+                }?.let { useVersion(it.value) }
+            }
+        }
+    }
+
     // Imported from IDS feature in TC at runtime
     implementation(libs.infomodel.model)
-    implementation(libs.infomodel.serializer)
 
     implementation(libs.camel.idscp2)
     implementation(libs.camel.core)
@@ -115,6 +151,8 @@ dependencies {
     implementation(libs.commons.fileupload)
     implementation(libs.ktor.auth)
     implementation(libs.ktor.auth.jwt)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.annotations)
     compileOnly(libs.spring.context)
 
     testApi(libs.slf4j.simple)
@@ -137,9 +175,13 @@ tasks.withType<JavaCompile> {
     targetCompatibility = JavaVersion.VERSION_17.toString()
 }
 
-tasks.jar {
-    manifest {
-        attributes(mapOf(Pair("Bundle-Vendor", "Fraunhofer AISEC"),
-                         Pair("-noee", true)))
+val versionRegex = ".*((rc|beta)-?[0-9]*|-(b|alpha)[0-9.]+)$".toRegex(RegexOption.IGNORE_CASE)
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        // Reject release candidates and betas and pin Apache Camel to 3.18 LTS version
+        versionRegex.matches(candidate.version)
+                || (candidate.group in setOf("org.apache.camel", "org.apache.camel.springboot")
+                && !candidate.version.startsWith("3.18"))
     }
 }
