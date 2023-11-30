@@ -11,6 +11,7 @@ okhttp = "4.12.0"
 
 # The used version of the infomodel from IESE
 infomodel = "4.1.3"
+javax-validation = "2.0.1.Final"
 
 camel = "3.18.8"
 slf4j = "2.0.9"
@@ -60,6 +61,7 @@ commons-fileupload = { group = "commons-fileupload", name = "commons-fileupload"
 # camel-processors
 camel-idscp2 = { group = "de.fhg.aisec.ids", name = "camel-idscp2", version.ref = "idscp2" }
 infomodel-model = { group = "de.fhg.aisec.ids", name = "infomodel", version.ref = "infomodel" }
+javax-validation = { group = "javax.validation", name = "validation-api", version.ref = "javax-validation" }
 
 # for tests
 idscp2-core = { group = "de.fhg.aisec.ids", name = "idscp2-core", version.ref = "idscp2" }

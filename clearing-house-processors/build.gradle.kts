@@ -139,6 +139,7 @@ dependencies {
 
     // Imported from IDS feature in TC at runtime
     implementation(libs.infomodel.model)
+    implementation(libs.javax.validation)
 
     implementation(libs.camel.idscp2)
     implementation(libs.camel.core)
