@@ -96,7 +96,7 @@ publishing {
 repositories {
     mavenCentral()
     // References IAIS repository that contains the infomodel artifacts
-    maven("https://maven.iais.fraunhofer.de/artifactory/eis-ids-public/")
+    maven("https://gitlab.cc-asp.fraunhofer.de/api/v4/projects/55371/packages/maven")
 }
 
 dependencies {
