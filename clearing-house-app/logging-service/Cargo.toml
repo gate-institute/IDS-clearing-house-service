@@ -8,7 +8,7 @@ authors = [
 edition = "2018"
 
 [dependencies]
-biscuit = { git = "https://github.com/lawliet89/biscuit", rev = "144bac5" }
+biscuit = "0.6.0"
 core-lib = { path = "../core-lib" }
 chrono = { version = "0.4", features = ["serde"] }
 error-chain = "0.12.1"
