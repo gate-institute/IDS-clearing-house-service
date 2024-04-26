@@ -4,11 +4,11 @@
 # Copyright 2019 Fraunhofer AISEC
 #
 #########################################################################################
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN apt-get update \
 && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections \
-&& apt-get --no-install-recommends install -y -q ca-certificates gnupg2 libssl1.1 libc6
+&& apt-get --no-install-recommends install -y -q ca-certificates gnupg2 libssl3 libc6
 
 # trust the DAPS certificate
 COPY docker/daps_cachain.crt /usr/local/share/ca-certificates/daps_cachain.crt
