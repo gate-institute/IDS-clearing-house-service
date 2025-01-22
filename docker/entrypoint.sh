@@ -1,4 +1,6 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+update-ca-certificates
 
 exec "$@"
